@@ -1,8 +1,17 @@
 import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+L.Marker.prototype.options.icon = L.icon({
+    iconUrl: markerIcon,
+    shadowUrl: markerShadow,
+});
 
 const ElephantMap = ({ locations }) => {
-    const defaultPosition = [6.9271, 79.8612]; // Default to Colombo coordinates
+    const defaultPosition = [6.9271, 79.8612];
 
     return (
         <MapContainer center={defaultPosition} zoom={8} style={{ height: '500px', width: '100%' }}>
