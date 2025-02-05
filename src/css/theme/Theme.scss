@@ -1,0 +1,34 @@
+/**
+ * Import all global custom css files here
+ */
+ @import url(../Common.scss);
+ 
+ /**
+ * All customized colors are included here
+ */
+
+$theme-colors: (
+    "primary": tomato
+);
+
+
+
+ /**
+ * All customized classes for light theme are included here
+ */
+
+//  .light-mode{
+
+//  }
+
+  /**
+ * All customized classes for dark theme are included here
+ */
+
+//  .dark-mode{
+//  }
+
+
+
+// Boostrap scss (5.1.3)
+@import "~bootstrap/scss/bootstrap";
