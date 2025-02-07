@@ -54,14 +54,16 @@ export default function Login(props) {
     <div class="container">
       <div class="row min-vh-100">
         <div class="col-md-12 align-self-center">
+git 
           <form class="login-section">
-
-            <div class="form-group col-md-8 mx-auto" style={{ height: "175px" }}>
+            <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
               <div className="xo-box2">
                 <img src={log} alt="" />
-
               </div>
-
+            </div>
+              
+            <div class="form-group col-md-8 mx-auto">
+              
             </div>
             <div class="form-row">
               <div class="form-group col-md-8 mx-auto">
