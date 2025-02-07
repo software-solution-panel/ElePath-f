@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Search, Home, Clock, User, Bell, ShieldPlus, Camera, MapPinned, Route } from 'lucide-react';
+import { Menu, LogOut, Home, Clock, User, Bell, ShieldPlus, Camera, MapPinned, Route } from 'lucide-react';
 import { Link } from 'react-router';
 
 const ElePath = () => {
@@ -14,7 +14,9 @@ const ElePath = () => {
                 className="mx-auto h-10 sm:h-80 md:h-20 w-auto mt-8"
                 src="app/assests/images/elepath-logo-hr.png"
             />
-            <Search className="w-6 h-6 text-gray-700" />
+            <Link to="/login">
+              <LogOut className="w-6 h-6 text-gray-700" />
+            </Link>
           </div>
         </div>
 
