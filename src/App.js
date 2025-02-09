@@ -14,8 +14,8 @@ function App() {
             name: 'Elephant 1',
             path: [
                 { lat: 6.9271, lng: 79.8612 },
-                { lat: 6.9325, lng: 79.8570 }, 
-                { lat: 6.9375, lng: 79.8540 }, 
+                { lat: 6.9325, lng: 79.8570 },
+                { lat: 6.9375, lng: 79.8540 },
             ],
             lastSeen: '2025-01-25 10:00 AM',
         },
@@ -23,8 +23,8 @@ function App() {
             name: 'Elephant 2',
             path: [
                 { lat: 7.8731, lng: 80.7718 },
-                { lat: 7.8735, lng: 80.7750 }, 
-                { lat: 7.8740, lng: 80.7800 }, 
+                { lat: 7.8735, lng: 80.7750 },
+                { lat: 7.8740, lng: 80.7800 },
             ],
             lastSeen: '2025-01-25 2:00 PM',
         },
