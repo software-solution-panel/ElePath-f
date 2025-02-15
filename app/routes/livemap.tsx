@@ -1,6 +1,8 @@
 'use client';
 
 import React, { Suspense, useEffect, useState } from 'react';
+import { ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router';
 
 interface Location {
     lat: number;
@@ -50,8 +52,14 @@ const Map: React.FC<ElephantMapProps> = ({ movements = [] }) => {
         <div className="flex justify-center min-h-screen bg-gray-50">
             <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50 w-[1000px] h-[700px]">
                 {/* Header */}
-                <div className="sticky top-0 z-50 bg-gray-50 py-4 text-center font-bold text-lg">
-                    Elephant Movement Map
+                <div className="sticky top-0 z-50 bg-gray-50 py-4">
+                    <div className="flex items-center justify-between max-w-lg mx-auto">
+                    <Link to="/homepage" className="w-6 h-6 sm:w-7 sm:h-7 text-gray-700 cursor-pointer">
+                        <ArrowLeft className="w-6 h-6 sm:w-7 sm:h-7 text-gray-700 cursor-pointer" />
+                    </Link>
+                    <span className="text-lg sm:text-xl font-semibold text-gray-800">Live Map</span>
+                    <div className="w-6 h-6 sm:w-7 sm:h-7" />
+                    </div>
                 </div>
 
                 {/* Map Container */}

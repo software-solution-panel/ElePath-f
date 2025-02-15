@@ -85,8 +85,8 @@ const CaptureSubmitPage = () => {
                     />
                 ) : (
                     <img
-                        src="/api/placeholder/400/400"
-                        alt="Placeholder"
+                        // src="/api/placeholder/400/400"
+                        // alt="Placeholder"
                         className="w-full h-full object-cover"
                     />
                 )}

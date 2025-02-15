@@ -57,11 +57,13 @@ const ElePath = () => {
                 {/* </button> */}
               </Link>
               
-              <button className="aspect-square bg-red-100 p-4 sm:p-6 rounded-xl flex flex-col items-center justify-center hover:bg-red-200 transition-colors">
-                <MapPinned className="w-12 h-12 sm:w-16 sm:h-16 text-red-500 mb-2" />
-                <span className="text-sm sm:text-base text-gray-700 font-bold">Live Map</span>
-              </button>
-              
+              <Link to="/livemap" className="aspect-square bg-red-100 p-4 sm:p-6 rounded-xl flex flex-col items-center justify-center hover:bg-red-200 transition-colors">
+                {/* <button className="aspect-square bg-red-100 p-4 sm:p-6 rounded-xl flex flex-col items-center justify-center hover:bg-red-200 transition-colors"> */}
+                  <MapPinned className="w-12 h-12 sm:w-16 sm:h-16 text-red-500 mb-2" />
+                  <span className="text-sm sm:text-base text-gray-700 font-bold">Live Map</span>
+                {/* </button> */}
+              </Link>
+
               <button className="aspect-square bg-purple-100 p-4 sm:p-6 rounded-xl flex flex-col items-center justify-center hover:bg-purple-200 transition-colors">
                 <Route className="w-12 h-12 sm:w-16 sm:h-16 text-purple-600 mb-2" />
                 <span className="text-sm sm:text-base text-gray-700 font-bold">Movement Tracking</span>
