@@ -15,11 +15,10 @@ interface ElephantMovement {
 }
 
 interface ElephantMapProps {
-    movements?: ElephantMovement[];  // Made optional
+    movements?: ElephantMovement[];
 }
 
-// Create a client-side only wrapper component for the map
-const Map: React.FC<ElephantMapProps> = ({ movements = [] }) => {  // Add default empty array
+const Map: React.FC<ElephantMapProps> = ({ movements = [] }) => {
     const [MapComponents, setMapComponents] = useState<any>(null);
     const [L, setL] = useState<any>(null);
     const defaultPosition: [number, number] = [6.9271, 79.8612];
@@ -48,54 +47,60 @@ const Map: React.FC<ElephantMapProps> = ({ movements = [] }) => {  // Add defaul
     });
 
     return (
-        <div style={{ width: '100%', height: '100vh', maxHeight: '100%' }}>
-            <MapContainer
-                center={defaultPosition}
-                zoom={8}
-                style={{ width: '100%', height: '100%' }}
-                scrollWheelZoom={true}
-                touchZoom={true}
-                dragging={true}
-            >
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
+        <div className="flex justify-center min-h-screen bg-gray-50">
+            <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50 w-[1000px] h-[700px]">
+                {/* Header */}
+                <div className="sticky top-0 z-50 bg-gray-50 py-4 text-center font-bold text-lg">
+                    Elephant Movement Map
+                </div>
 
-                {movements && movements.length > 0 && movements.map((elephant, index) => (
-                    <React.Fragment key={index}>
-                        {elephant.path && elephant.path.length > 0 && (
-                            <Polyline
-                                positions={elephant.path.map((point) => [point.lat, point.lng])}
-                                color="blue"
-                                weight={3}
-                            />
-                        )}
+                {/* Map Container */}
+                <div className="relative mb-8 rounded-xl overflow-hidden border border-gray-200 shadow-md h-[700px]">
 
-                        {elephant.currentLocation && (
-                            <Marker
-                                position={[elephant.currentLocation.lat, elephant.currentLocation.lng]}
-                                icon={elephantIcon}
-                            >
-                                <Popup>
-                                    <b>{elephant.name}</b> <br />
-                                    <b>Current Location:</b> ({elephant.currentLocation.lat}, {elephant.currentLocation.lng}) <br />
-                                    <b>Last Seen:</b> {elephant.lastSeen}
-                                </Popup>
-                            </Marker>
-                        )}
+                    <MapContainer
+                        center={defaultPosition}
+                        zoom={8}
+                        style={{ width: '100%', height: '700px' }}
+                        scrollWheelZoom={true}
+                        touchZoom={true}
+                        dragging={true}
+                    >
+                        <TileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        />
 
-                        {elephant.path && elephant.path.length > 0 && elephant.path.map((point, idx) => (
-                            <Marker key={`${index}-${idx}`} position={[point.lat, point.lng]} icon={elephantIcon}>
-                                <Popup>
-                                    <b>{elephant.name}</b> <br />
-                                    <b>Visited Location:</b> ({point.lat}, {point.lng})
-                                </Popup>
-                            </Marker>
+                        {movements.length > 0 && movements.map((elephant, index) => (
+                            <React.Fragment key={index}>
+                                {elephant.path.length > 0 && (
+                                    <Polyline
+                                        positions={elephant.path.map((point) => [point.lat, point.lng])}
+                                        color="blue"
+                                        weight={3}
+                                    />
+                                )}
+
+                                <Marker position={[elephant.currentLocation.lat, elephant.currentLocation.lng]} icon={elephantIcon}>
+                                    <Popup>
+                                        <b>{elephant.name}</b> <br />
+                                        <b>Current Location:</b> ({elephant.currentLocation.lat}, {elephant.currentLocation.lng}) <br />
+                                        <b>Last Seen:</b> {elephant.lastSeen}
+                                    </Popup>
+                                </Marker>
+
+                                {elephant.path.map((point, idx) => (
+                                    <Marker key={`${index}-${idx}`} position={[point.lat, point.lng]} icon={elephantIcon}>
+                                        <Popup>
+                                            <b>{elephant.name}</b> <br />
+                                            <b>Visited Location:</b> ({point.lat}, {point.lng})
+                                        </Popup>
+                                    </Marker>
+                                ))}
+                            </React.Fragment>
                         ))}
-                    </React.Fragment>
-                ))}
-            </MapContainer>
+                    </MapContainer>
+                </div>
+            </div>
         </div>
     );
 };
