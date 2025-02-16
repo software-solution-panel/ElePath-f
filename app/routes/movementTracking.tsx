@@ -1,8 +1,6 @@
 'use client';
 
 import React, { Suspense, useEffect, useState } from 'react';
-import { ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 interface Location {
@@ -23,6 +21,7 @@ const Map: React.FC = () => {
     const [L, setL] = useState<any>(null);
     const defaultPosition: [number, number] = [6.9271, 79.8612];
     const [movements, setMovements] = useState<ElephantMovement[]>([]);
+    const [clusters, setClusters] = useState<ElephantMovement[][]>([]);
 
     useEffect(() => {
         Promise.all([
@@ -49,6 +48,7 @@ const Map: React.FC = () => {
                     }));
                     console.log(formattedData)
                     setMovements(formattedData);
+                    setClusters(groupElephantsByDistance(formattedData));
                 } else {
                     console.error('Failed to fetch elephant data');
                 }
@@ -79,7 +79,7 @@ const Map: React.FC = () => {
                 <div className="relative mb-8 rounded-xl overflow-hidden border border-gray-200 shadow-md h-[700px]">
                     <MapContainer
                         center={defaultPosition}
-                        zoom={8}
+                        zoom={10}
                         style={{ width: '100%', height: '700px' }}
                         scrollWheelZoom={true}
                         touchZoom={true}
@@ -90,33 +90,71 @@ const Map: React.FC = () => {
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         />
 
-                        {movements.map((elephant, index) => (
-                            <React.Fragment key={index}>
-                                {elephant.path.length > 0 && (
-                                    <Polyline
-                                        positions={elephant.path.map((point) => [point.latitude, point.longitude])}
-                                        color="blue"
-                                        weight={3}
-                                    />
-                                )}
+                        {clusters.map((group, index) => (
+                            <Polyline
+                                key={index}
+                                positions={group.map(elephant => [elephant.currentLocation.latitude, elephant.currentLocation.longitude])}
+                                color="blue"
+                                weight={3}
+                            />
+                        ))}
 
-                                <Marker position={[elephant.currentLocation.latitude, elephant.currentLocation.longitude]} icon={elephantIcon}>
-                                    <Popup>
-                                        <div className="text-center">
-                                            <b>{elephant.name}</b> <br />
-                                            <b>Current Location:</b> ({elephant.currentLocation.latitude}, {elephant.currentLocation.longitude}) <br />
-                                            <b>Last Seen:</b> {elephant.lastSeen} <br />
-                                            <img src={elephant.imagePath} alt={elephant.name} className="mt-2 w-40 h-40 object-cover rounded-md shadow-lg" />
-                                        </div>
-                                    </Popup>
-                                </Marker>
-                            </React.Fragment>
+                        {movements.map((elephant, index) => (
+                            <Marker
+                                key={index}
+                                position={[elephant.currentLocation.latitude, elephant.currentLocation.longitude]}
+                                icon={elephantIcon}
+                            >
+                                <Popup>
+                                    <div className="text-center">
+                                        <b>{elephant.name}</b> <br />
+                                        <b>Current Location:</b> ({elephant.currentLocation.latitude}, {elephant.currentLocation.longitude}) <br />
+                                        <b>Last Seen:</b> {elephant.lastSeen} <br />
+                                        <img src={elephant.imagePath} alt={elephant.name} className="mt-2 w-40 h-40 object-cover rounded-md shadow-lg" />
+                                    </div>
+                                </Popup>
+                            </Marker>
                         ))}
                     </MapContainer>
                 </div>
             </div>
         </div>
     );
+};
+
+
+const isWithinOneKm = (loc1: Location, loc2: Location): boolean => {
+    const R = 6371;
+    const dLat = (loc2.latitude - loc1.latitude) * (Math.PI / 180);
+    const dLon = (loc2.longitude - loc1.longitude) * (Math.PI / 180);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(loc1.latitude * (Math.PI / 180)) * Math.cos(loc2.latitude * (Math.PI / 180)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c;
+    return distance <= 1;
+};
+
+const groupElephantsByDistance = (elephants: ElephantMovement[]): ElephantMovement[][] => {
+    const clusters: ElephantMovement[][] = [];
+    const visited = new Set<number>();
+
+    for (let i = 0; i < elephants.length; i++) {
+        if (visited.has(i)) continue;
+
+        const cluster: ElephantMovement[] = [elephants[i]];
+        visited.add(i);
+
+        for (let j = 0; j < elephants.length; j++) {
+            if (i !== j && !visited.has(j) && isWithinOneKm(elephants[i].currentLocation, elephants[j].currentLocation)) {
+                cluster.push(elephants[j]);
+                visited.add(j);
+            }
+        }
+        clusters.push(cluster);
+    }
+    return clusters;
 };
 
 const ElephantMap: React.FC = () => {
