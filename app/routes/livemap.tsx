@@ -13,19 +13,15 @@ interface ElephantMovement {
     name: string;
     currentLocation: Location;
     lastSeen: string;
+    imagePath: string;
     path: Location[];
 }
 
-interface ElephantMapProps {
-    movements?: ElephantMovement[];
-}
-
-
-
-const Map: React.FC<ElephantMapProps> = ({ movements = [] }) => {
+const Map: React.FC = () => {
     const [MapComponents, setMapComponents] = useState<any>(null);
     const [L, setL] = useState<any>(null);
     const defaultPosition: [number, number] = [6.9271, 79.8612];
+    const [movements, setMovements] = useState<ElephantMovement[]>([]);
 
     useEffect(() => {
         Promise.all([
@@ -36,12 +32,22 @@ const Map: React.FC<ElephantMapProps> = ({ movements = [] }) => {
             setL(L);
             setMapComponents(reactLeaflet);
         });
+
         const fetchElephantData = async () => {
             try {
                 const response = await fetch('http://localhost:8080/elephant/getAllElephant');
                 const data = await response.json();
+
                 if (response.ok) {
-                    //setMovements(data.data);
+                    const formattedData: ElephantMovement[] = data.response.map((elephant: any) => ({
+                        name: `Elephant ${elephant.eid}`,
+                        currentLocation: { latitude: elephant.latitude, longitude: elephant.longitude },
+                        lastSeen: elephant.lastUpdateTime,
+                        imagePath: `http://localhost:8000/${elephant.imagePath.split('/').pop()}`,
+                        path: []
+                    }));
+                    console.log(formattedData)
+                    setMovements(formattedData);
                 } else {
                     console.error('Failed to fetch elephant data');
                 }
@@ -49,15 +55,13 @@ const Map: React.FC<ElephantMapProps> = ({ movements = [] }) => {
                 console.error('Error fetching elephant data:', error);
             }
         };
+
         fetchElephantData();
     }, []);
 
     if (!MapComponents || !L) {
         return <div>Loading map...</div>;
     }
-
-
-
 
     const { MapContainer, TileLayer, Marker, Popup, Polyline } = MapComponents;
 
@@ -70,17 +74,6 @@ const Map: React.FC<ElephantMapProps> = ({ movements = [] }) => {
     return (
         <div className="flex justify-center min-h-screen bg-gray-50">
             <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50 w-[1000px] h-[700px]">
-                {/* Header */}
-                <div className="sticky top-0 z-50 bg-gray-50 py-4">
-                    <div className="flex items-center justify-between max-w-lg mx-auto">
-                        <Link to="/homepage" className="w-6 h-6 sm:w-7 sm:h-7 text-gray-700 cursor-pointer">
-                            <ArrowLeft className="w-6 h-6 sm:w-7 sm:h-7 text-gray-700 cursor-pointer" />
-                        </Link>
-                        <span className="text-lg sm:text-xl font-semibold text-gray-800">Live Map</span>
-                        <div className="w-6 h-6 sm:w-7 sm:h-7" />
-                    </div>
-                </div>
-
                 {/* Map Container */}
                 <div className="relative mb-8 rounded-xl overflow-hidden border border-gray-200 shadow-md h-[700px]">
                     <MapContainer
@@ -96,35 +89,28 @@ const Map: React.FC<ElephantMapProps> = ({ movements = [] }) => {
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         />
 
-                        {movements.length > 0 &&
-                            movements.map((elephant, index) => (
-                                <React.Fragment key={index}>
-                                    {elephant.path.length > 0 && (
-                                        <Polyline
-                                            positions={elephant.path.map((point) => [point.latitude, point.longitude])}
-                                            color="blue"
-                                            weight={3}
-                                        />
-                                    )}
+                        {movements.map((elephant, index) => (
+                            <React.Fragment key={index}>
+                                {elephant.path.length > 0 && (
+                                    <Polyline
+                                        positions={elephant.path.map((point) => [point.latitude, point.longitude])}
+                                        color="blue"
+                                        weight={3}
+                                    />
+                                )}
 
-                                    <Marker position={[elephant.currentLocation.latitude, elephant.currentLocation.longitude]} icon={elephantIcon}>
-                                        <Popup>
+                                <Marker position={[elephant.currentLocation.latitude, elephant.currentLocation.longitude]} icon={elephantIcon}>
+                                    <Popup>
+                                        <div className="text-center">
                                             <b>{elephant.name}</b> <br />
                                             <b>Current Location:</b> ({elephant.currentLocation.latitude}, {elephant.currentLocation.longitude}) <br />
-                                            <b>Last Seen:</b> {elephant.lastSeen}
-                                        </Popup>
-                                    </Marker>
-
-                                    {elephant.path.map((point, idx) => (
-                                        <Marker key={`${index}-${idx}`} position={[point.latitude, point.longitude]} icon={elephantIcon}>
-                                            <Popup>
-                                                <b>{elephant.name}</b> <br />
-                                                <b>Visited Location:</b> ({point.latitude}, {point.longitude})
-                                            </Popup>
-                                        </Marker>
-                                    ))}
-                                </React.Fragment>
-                            ))}
+                                            <b>Last Seen:</b> {elephant.lastSeen} <br />
+                                            <img src={elephant.imagePath} alt={elephant.name} className="mt-2 w-40 h-40 object-cover rounded-md shadow-lg" />
+                                        </div>
+                                    </Popup>
+                                </Marker>
+                            </React.Fragment>
+                        ))}
                     </MapContainer>
                 </div>
             </div>
@@ -132,10 +118,10 @@ const Map: React.FC<ElephantMapProps> = ({ movements = [] }) => {
     );
 };
 
-const ElephantMap: React.FC<ElephantMapProps> = (props) => {
+const ElephantMap: React.FC = () => {
     return (
         <Suspense fallback={<div>Loading map...</div>}>
-            <Map {...props} />
+            <Map />
         </Suspense>
     );
 };
