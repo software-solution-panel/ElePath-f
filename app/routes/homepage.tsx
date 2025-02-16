@@ -55,10 +55,10 @@ const ElePath = () => {
                 {/* </button> */}
               </Link>
 
-              <button className="aspect-square bg-purple-100 p-4 sm:p-6 rounded-xl flex flex-col items-center justify-center hover:bg-purple-200 transition-colors">
+              <Link to="/movement" className="aspect-square bg-purple-100 p-4 sm:p-6 rounded-xl flex flex-col items-center justify-center hover:bg-purple-200 transition-colors">
                 <Route className="w-12 h-12 sm:w-16 sm:h-16 text-purple-600 mb-2" />
                 <span className="text-sm sm:text-base text-gray-700 font-bold">Movement Tracking</span>
-              </button>
+              </Link>
               
               <button className="aspect-square bg-green-100 p-4 sm:p-6 rounded-xl flex flex-col items-center justify-center hover:bg-green-200 transition-colors">
                 <ShieldPlus className="w-12 h-12 sm:w-16 sm:h-16 text-green-600 mb-2" />
