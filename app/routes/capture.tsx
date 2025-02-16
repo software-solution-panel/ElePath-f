@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import type { ChangeEvent } from 'react';
 import { Camera, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router';
+import uploadService from '../service/uploadService';
 
 const CaptureSubmitPage = () => {
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
@@ -27,7 +27,7 @@ const CaptureSubmitPage = () => {
     }
   };
 
-  const handleCapture = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleCapture = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
@@ -36,9 +36,13 @@ const CaptureSubmitPage = () => {
     }
   };
 
-  const imageUpload = function () {
+  const imageUpload = async () => {
     if (capturedImage && location) {
-      alert(`Image Uploaded! Location: Lat: ${location.lat}, Lng: ${location.lng}`);
+      const file = (fileInputRef.current?.files ?? [])[0];
+      if (file) {
+        const response = await uploadService.uploadImageAndLocation(file, location.lat, location.lng);
+        alert(response.message);
+      }
     } else {
       alert('Please capture an image and allow location access.');
     }
@@ -78,17 +82,9 @@ const CaptureSubmitPage = () => {
             <div className="mb-6 sm:mb-8">
               <div className="aspect-square bg-blue-100 rounded-xl sm:rounded-2xl flex items-center justify-center overflow-hidden shadow-md">
                 {capturedImage ? (
-                    <img
-                        src={capturedImage}
-                        alt="Captured preview"
-                        className="w-full h-full object-cover"
-                    />
+                    <img src={capturedImage} alt="Captured preview" className="w-full h-full object-cover" />
                 ) : (
-                    <img
-                        // src="/api/placeholder/400/400"
-                        // alt="Placeholder"
-                        className="w-full h-full object-cover"
-                    />
+                    <img className="w-full h-full object-cover" />
                 )}
               </div>
             </div>
