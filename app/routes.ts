@@ -5,5 +5,6 @@ export default [index("routes/home.tsx"),
     route("login", "routes/login.tsx"), 
     route("homepage", "routes/homepage.tsx"),
     route("capture", "routes/capture.tsx"),
-    route("livemap", "routes/livemap.tsx")
+    route("livemap", "routes/livemap.tsx"),
+    route("movement", "routes/movementTracking.tsx")
 ] satisfies RouteConfig;
