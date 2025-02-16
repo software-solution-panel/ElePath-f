@@ -2,12 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Camera, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router';
 import uploadService from '../service/uploadService';
-
+import { useNavigate } from 'react-router-dom';
 const CaptureSubmitPage = () => {
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null); // New state for location
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const navigate = useNavigate();
   const captureLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -42,6 +42,7 @@ const CaptureSubmitPage = () => {
       if (file) {
         const response = await uploadService.uploadImageAndLocation(file, location.lat, location.lng);
         alert(response.message);
+        navigate('/homepage');
       }
     } else {
       alert('Please capture an image and allow location access.');

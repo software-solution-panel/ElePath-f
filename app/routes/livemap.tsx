@@ -3,6 +3,7 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 interface Location {
     latitude: number;

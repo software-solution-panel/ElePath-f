@@ -6,7 +6,6 @@ const ElePath = () => {
   return (
     <div className="flex justify-center min-h-screen bg-gray-50">
       <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50 w-[1000px]">
-        {/* Header */}
         <div className="sticky top-0 z-50 bg-gray-50 py-4">
           <div className="flex items-center justify-between">
             <Menu className="w-6 h-6 text-gray-700" />
@@ -20,9 +19,7 @@ const ElePath = () => {
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="pb-24">
-          {/* Report Card Slider */}
           <div className="relative mb-8">
             <div className="bg-blue-100 rounded-xl p-4 sm:p-6 mb-2">
               <div className="flex justify-between items-start">
@@ -37,13 +34,7 @@ const ElePath = () => {
                 />
               </div>
             </div>
-            
-            {/* Slider Indicators
-            <div className="flex justify-center gap-1">
-              <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-              <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-              <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-            </div> */}
+
           </div>
 
           {/* Quick Access Section */}
@@ -77,29 +68,6 @@ const ElePath = () => {
           </div>
         </div>
 
-        {/* Bottom Navigation */}
-        {/* <div className="bottom-0 left-0 right-0 bg-white border-t">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex justify-between p-4 bg-blue-50">
-              <button className="flex flex-col items-center text-blue-500">
-                <Home className="w-6 h-6 sm:w-7 sm:h-7" />
-                <span className="text-xs sm:text-sm mt-1">Home</span>
-              </button>
-              <button className="flex flex-col items-center text-gray-400">
-                <Bell className="w-6 h-6 sm:w-7 sm:h-7" />
-                <span className="text-xs sm:text-sm mt-1">Report</span>
-              </button>
-              <button className="flex flex-col items-center text-gray-400">
-                <Clock className="w-6 h-6 sm:w-7 sm:h-7" />
-                <span className="text-xs sm:text-sm mt-1">Updates</span>
-              </button>
-              <button className="flex flex-col items-center text-gray-400">
-                <User className="w-6 h-6 sm:w-7 sm:h-7" />
-                <span className="text-xs sm:text-sm mt-1">Profile</span>
-              </button>
-            </div>
-          </div>
-        </div> */}
 
       </div>
     </div>
