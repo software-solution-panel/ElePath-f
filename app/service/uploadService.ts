@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const UPLOAD_URL = 'http://localhost:8080/elephant/addElephant'; // Your backend URL
+const UPLOAD_URL = 'http://localhost:8080/elephant/';
 
 interface UploadResponse {
     status: number;
@@ -19,7 +19,7 @@ const uploadImageAndLocation = async (
     formData.append('longitude', longitude.toString());
 
     try {
-        const response = await axios.post(UPLOAD_URL, formData, {
+        const response = await axios.post(UPLOAD_URL+'addElephant', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
