@@ -1,4 +1,11 @@
-# Welcome to React Router!
+# ElePath - Elephant Tracking System v1.0.0
+
+ElePath is a web solution that aims to alert and educate the public about areas frequented by wild elephants by collecting reports of wild elephant sightings and displaying them on a real-time map.
+ElePath also aims to use data related to wild elephant sightings to create data visualizations that will shed light on the behavioral and migratory patterns of wild elephants to guide the future development of areas surrounding elephant habitats.
+
+![alt text](https://github.com/software-solution-panel/ElePath-f/blob/dev/app/assests/images/elepath-ui.jpg?raw=true)
+
+## Technologies Used
 
 A modern, production-ready template for building full-stack React applications using React Router.
 
