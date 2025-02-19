@@ -75,12 +75,23 @@ const Map: React.FC = () => {
     return (
         <div className="flex justify-center min-h-screen bg-gray-50">
             <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50 w-[1000px] h-[700px]">
+                {/* Header */}
+                <div className="sticky top-0 z-50 bg-gray-50 py-4">
+                    <div className="flex items-center justify-between max-w-lg mx-auto">
+                        <Link to="/homepage" className="w-6 h-6 sm:w-7 sm:h-7 text-gray-700 cursor-pointer">
+                        <ArrowLeft className="w-6 h-6 sm:w-7 sm:h-7 text-gray-700 cursor-pointer" />
+                        </Link>
+                        <span className="text-lg sm:text-xl font-semibold text-gray-800">Movement Tracking</span>
+                        <div className="w-6 h-6 sm:w-7 sm:h-7" />
+                    </div>
+                </div>
+                
                 {/* Map Container */}
-                <div className="relative mb-8 rounded-xl overflow-hidden border border-gray-200 shadow-md h-[700px]">
+                <div className="relative mb-8 rounded-xl overflow-hidden border border-gray-200 shadow-md h-[750px]">
                     <MapContainer
                         center={defaultPosition}
                         zoom={8}
-                        style={{ width: '100%', height: '700px' }}
+                        style={{ width: '100%', height: '750px' }}
                         scrollWheelZoom={true}
                         touchZoom={true}
                         dragging={true}
