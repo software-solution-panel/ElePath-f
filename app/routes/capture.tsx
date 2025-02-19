@@ -81,7 +81,7 @@ const CaptureSubmitPage = () => {
 
             {/* Image Preview Box */}
             <div className="mb-6 sm:mb-8">
-              <div className="aspect-square bg-blue-100 rounded-xl sm:rounded-2xl flex items-center justify-center overflow-hidden shadow-md">
+              <div className="aspect-[3/4] bg-blue-100 rounded-xl sm:rounded-2xl flex items-center justify-center overflow-hidden shadow-md">
                 {capturedImage ? (
                     <img src={capturedImage} alt="Captured preview" className="w-full h-full object-cover" />
                 ) : (
